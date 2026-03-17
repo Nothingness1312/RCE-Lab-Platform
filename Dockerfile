@@ -11,7 +11,13 @@ RUN mkdir -p /var/www/html/data /var/www/html/levels/level1/uploads /var/www/htm
  && chown -R www-data:www-data /var/www/html \
  && chmod -R 777 /var/www/html
 
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Configure Apache ServerName to suppress warning
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 EXPOSE 80
+
+ENTRYPOINT ["/entrypoint.sh"]

@@ -1,8 +1,11 @@
 services:
   rce:
-    image: php:8.1-apache
+    build: .
     ports:
       - "8080:80"
     volumes:
       - .:/var/www/html
-      - /var/www/html/data
+      - rce_data:/var/www/html/data
+
+volumes:
+  rce_data:
