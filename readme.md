@@ -17,9 +17,9 @@
 ## 📸 Preview
 
 <p align="center">
-  <img src="docs/register.png" width="30%" />
-  <img src="docs/home.png" width="30%" />
-  <img src="docs/level.png" width="30%" />
+  <img src="docs/register.png" width="50%" />
+  <img src="docs/home.png" width="50%" />
+  <img src="docs/level.png" width="50%" />
 </p>
 
 ---
