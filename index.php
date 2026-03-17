@@ -285,7 +285,7 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
             <div class="challenge-card-header">
                 <div>
                     <span class="challenge-level">Challenge 2</span>
-                    <h3>No Miaw</h3>
+                    <h3>Filtered RCE</h3>
                 </div>
                 <?php if ($solved_level2): ?>
                     <span class="status-badge solved"><i class="fa-solid fa-check"></i> Done</span>
