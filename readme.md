@@ -24,7 +24,6 @@
 - [📦 Instalasi Manual](#-instalasi-manual)
 - [🎮 Cara Bermain](#-cara-bermain)
 - [📁 Struktur Project](#-struktur-project)
-- [🧩 Level Challenge](#-level-challenge)
 - [🧠 Tujuan Pembelajaran](#-tujuan-pembelajaran)
 - [💬 Community](#-community)
 - [🏁 Penutup](#-penutup)
@@ -44,17 +43,85 @@
 
 ---
 
-## ⚡ Quick Start (Versi Cepat)
+## ⚡ Quick Start
 
 ```bash
-# Clone repositori
+git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git && cd RCE-Lab-Platform && cp .env.example .env && docker compose up -d
+```
+
+Buka di browser:
+
+```text
+http://localhost:8080
+```
+
+---
+
+## 📦 Instalasi Manual
+
+```bash
 git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git
-
-# Masuk ke direktori
 cd RCE-Lab-Platform
-
-# Setup environment
 cp .env.example .env
-
-# Jalankan dengan Docker
 docker compose up -d
+```
+
+---
+
+## 🎮 Cara Bermain
+
+1. Daftar menggunakan username  
+2. Masuk ke dashboard  
+3. Mulai dari Level 1  
+4. Analisa fitur yang tersedia  
+5. Temukan celah keamanan  
+6. Eksploitasi untuk mendapatkan flag  
+7. Submit flag untuk membuka level berikutnya  
+
+---
+
+## 📁 Struktur Project
+
+```
+.
+├── index.php
+├── init.php
+├── style.css
+├── .env.example
+├── docker-compose.yml
+├── Dockerfile
+│
+├── levels/
+│   ├── level1/
+│   └── level2/
+│
+├── data/
+│   └── db.sqlite
+```
+
+---
+
+## 🧠 Tujuan Pembelajaran
+
+- Memahami konsep dasar Remote Code Execution  
+- Mengenali vulnerability upload & command execution  
+- Melatih pola pikir attacker  
+- Belajar eksploitasi aplikasi web  
+
+---
+
+## 💬 Community
+
+- Discord: https://discord.gg/yourlink  
+- GitHub: https://github.com/Nothingness1312/RCE-Lab-Platform  
+
+---
+
+## 🏁 Penutup
+
+Selamat belajar dan eksplorasi 🔥  
+
+Platform ini dibuat untuk membantu memahami keamanan aplikasi web secara praktik langsung.  
+Gunakan dengan bijak dan tetap dalam batas etika.
+
+> Learn → Exploit → Understand → Improve 🚀
