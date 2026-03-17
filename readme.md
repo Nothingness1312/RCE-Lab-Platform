@@ -6,7 +6,7 @@
   ![Docker](https://img.shields.io/badge/docker-ready-2496ED.svg)
   ![PHP](https://img.shields.io/badge/PHP-8.0-777BB4.svg)
   ![SQLite](https://img.shields.io/badge/SQLite-3-003B57.svg)
-  [![Discord](https://img.shields.io/badge/Discord-Join-5865F2.svg)](https://discord.gg/yourlink)
+  [![Discord](https://img.shields.io/badge/Discord-Join-5865F2.svg)](https://discord.gg/nH94vYstKA)
   [![GitHub](https://img.shields.io/badge/GitHub-Repo-181717.svg)](https://github.com/Nothingness1312/RCE-Lab-Platform)
 
   <h3>🔥 Platform Pembelajaran Remote Code Execution (RCE) 🔥</h3>
@@ -47,7 +47,7 @@
 ## ⚡ Quick Start
 
 ```bash
-git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git && cd RCE-Lab-Platform && cp .env.example .env && docker compose up -d
+git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git && cd RCE-Lab-Platform && docker compose up -d
 ```
 
 Buka di browser:
@@ -63,7 +63,6 @@ http://localhost:8080
 ```bash
 git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git
 cd RCE-Lab-Platform
-cp .env.example .env
 docker compose up -d
 ```
 
@@ -141,7 +140,7 @@ Pastikan Docker sudah berjalan sebelum menjalankan ulang lab.
 
 ## 💬 Community
 
-- Discord: https://discord.gg/yourlink  
+- Discord: https://discord.gg/nH94vYstKA
 - GitHub: https://github.com/Nothingness1312/RCE-Lab-Platform  
 
 ---
