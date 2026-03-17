@@ -43,9 +43,6 @@ if (isset($_POST['username'])) {
 // =============================================
 // INITIALIZE VARIABLES
 // =============================================
-$msg_level1 = "";
-$msg_level2 = "";
-$msg_level3 = "";
 $uid = null;
 
 // =============================================
@@ -97,7 +94,6 @@ if (isset($_POST['submit_level1']) && $uid && !$solved_level1) {
         $stmt->bindValue(":u", $uid, SQLITE3_INTEGER);
         $stmt->execute();
 
-        $msg_level1 = "Correct! Level 2 has been unlocked.";
         $solved_level1 = true;
     } else {
         $msg_level1 = "Wrong flag for Level 1.";
@@ -115,7 +111,6 @@ if (isset($_POST['submit_level2']) && $uid) {
         $stmt->bindValue(":u", $uid, SQLITE3_INTEGER);
         $stmt->execute();
 
-        $msg_level2 = "Correct! Level 3 has been unlocked.";
         $solved_level2 = true;
     } else {
         $msg_level2 = "Wrong flag for Level 2.";
@@ -133,7 +128,6 @@ if (isset($_POST['submit_level3']) && $uid) {
         $stmt->bindValue(":u", $uid, SQLITE3_INTEGER);
         $stmt->execute();
 
-        $msg_level3 = "Correct! You've conquered all challenges!";
         $solved_level3 = true;
     } else {
         $msg_level3 = "Wrong flag for Level 3.";
@@ -380,11 +374,11 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
         </div>
 
         <!-- ===== COMMUNITY CARD (FULL WIDTH) ===== -->
-        <div class="community-compact-card <?php echo $solved_level3 ? 'highlight' : ''; ?>">
+        <div class="community-compact-card <?php echo ($solved_level1 && $solved_level2 && $solved_level3) ? 'highlight' : ''; ?>">
             <!-- Community Header -->
             <div class="community-compact-header">
                 <h3><i class="fa-solid fa-users"></i> Community</h3>
-                <?php if ($solved_level3): ?>
+                <?php if ($solved_level1 && $solved_level2 && $solved_level3): ?>
                     <span class="next-badge"><i class="fa-solid fa-star"></i> Master Achieved!</span>
                 <?php endif; ?>
             </div>
@@ -417,8 +411,8 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
                 </div>
             </div>
 
-            <!-- Preview Teaser (Only if Level 3 Completed) -->
-            <?php if ($solved_level3): ?>
+            <!-- Preview Teaser (Only if All Levels Completed) -->
+            <?php if ($solved_level1 && $solved_level2 && $solved_level3): ?>
                 <div class="preview-teaser">
                     <i class="fa-solid fa-crown"></i>
                     <span>Champion!</span>
