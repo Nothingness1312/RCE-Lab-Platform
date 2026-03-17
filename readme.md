@@ -22,6 +22,7 @@
 - [✨ Fitur](#-fitur)
 - [⚡ Quick Start](#-quick-start)
 - [📦 Instalasi Manual](#-instalasi-manual)
+- [🔄 Reset Data](#-reset-data)
 - [🎮 Cara Bermain](#-cara-bermain)
 - [📁 Struktur Project](#-struktur-project)
 - [🧠 Tujuan Pembelajaran](#-tujuan-pembelajaran)
@@ -68,6 +69,39 @@ docker compose up -d
 
 ---
 
+## 🔄 Reset Data
+
+Jika ingin menghapus semua progress user dan mengulang dari awal, gunakan script berikut:
+
+```bash
+./reset.sh
+```
+
+### 🧠 Penjelasan
+
+Script ini akan:
+- Menghapus database (`db.sqlite`)
+- Menghapus file upload (jika ada)
+- Membuat ulang environment seperti baru
+
+---
+
+### ⚠️ Catatan
+
+- Pastikan Docker sudah dimatikan sebelum reset:
+  
+```bash
+docker compose down
+```
+
+- Setelah reset, jalankan kembali:
+
+```bash
+docker compose up -d
+```
+
+---
+
 ## 🎮 Cara Bermain
 
 1. Daftar menggunakan username  
@@ -90,6 +124,7 @@ docker compose up -d
 ├── .env.example
 ├── docker-compose.yml
 ├── Dockerfile
+├── reset.sh
 │
 ├── levels/
 │   ├── level1/
