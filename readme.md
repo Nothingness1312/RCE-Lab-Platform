@@ -138,6 +138,26 @@ Pastikan Docker sudah berjalan sebelum menjalankan ulang lab.
 
 ---
 
+---
+
+## ⚠️ Catatan (Bisa Curang, Tapi…)
+
+Platform ini berjalan **sepenuhnya secara lokal** di mesin kamu.
+
+Artinya:
+- Semua file bisa kamu akses langsung
+- Termasuk konfigurasi internal dan file lainnya
+
+> ⚠️ Kamu *bisa saja* membaca file seperti `.env` atau file lain secara langsung  
+> tapi itu bukan tujuan dari challenge ini.
+
+🎯 Fokus utamanya adalah:
+- memahami vulnerability
+- eksploitasi lewat aplikasi
+- bukan mengambil jalan pintas
+
+---
+
 ## 💬 Community
 
 - Discord: https://discord.gg/nH94vYstKA
