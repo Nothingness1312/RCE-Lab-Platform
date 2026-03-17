@@ -12,6 +12,7 @@ if(!isset($_SESSION['user'])){
 }
 
 $msg = "";
+$error = "";
 
 // Handle file upload
 if(isset($_FILES['file'])){
@@ -19,19 +20,23 @@ if(isset($_FILES['file'])){
     
     // Create uploads directory if it doesn't exist
     if(!is_dir($upload_dir)){
-        mkdir($upload_dir, 0755, true);
+        if(!mkdir($upload_dir, 0755, true)){
+            $error = "Error: Cannot create uploads directory. Check permissions.";
+        }
     }
     
-    $name = $_FILES['file']['name'];
-    $tmp = $_FILES['file']['tmp_name'];
-    
-    // Sanitize filename to prevent directory traversal
-    $name = basename($name);
-    
-    if(move_uploaded_file($tmp, $upload_dir . $name)){
-        $msg = "File successfully uploaded to: /uploads/" . htmlspecialchars($name);
-    } else {
-        $msg = "Error uploading file. Please try again.";
+    if(!$error){
+        $name = $_FILES['file']['name'];
+        $tmp = $_FILES['file']['tmp_name'];
+        
+        // Sanitize filename to prevent directory traversal
+        $name = basename($name);
+        
+        if(move_uploaded_file($tmp, $upload_dir . $name)){
+            $msg = "File successfully uploaded to: /uploads/" . htmlspecialchars($name);
+        } else {
+            $error = "Error uploading file. Please try again.";
+        }
     }
 }
 ?>

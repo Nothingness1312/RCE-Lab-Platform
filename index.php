@@ -14,7 +14,14 @@ include "init.php";
 // =============================================
 // LOAD ENVIRONMENT VARIABLES
 // =============================================
-$env = parse_ini_file(__DIR__ . '/.env');
+$env_file = __DIR__ . '/.env';
+if (!file_exists($env_file)) {
+    die("Error: .env file not found at " . $env_file);
+}
+$env = parse_ini_file($env_file);
+if ($env === false) {
+    die("Error: Failed to parse .env file. Check file format.");
+}
 
 // =============================================
 // USER REGISTRATION

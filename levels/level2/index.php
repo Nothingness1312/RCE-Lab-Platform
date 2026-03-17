@@ -16,20 +16,24 @@ if(isset($_FILES['file'])){
     
     // Create uploads directory if it doesn't exist
     if(!is_dir($upload_dir)){
-        mkdir($upload_dir, 0755, true);
+        if(!mkdir($upload_dir, 0755, true)){
+            $error = "❌ Error: Cannot create uploads directory. Check permissions.";
+        }
     }
     
-    $name = $_FILES['file']['name'];
-    $tmp = $_FILES['file']['tmp_name'];
-    $size = $_FILES['file']['size'];
-    
-    // Sanitize filename
-    $name = basename($name);
-    
-    if(move_uploaded_file($tmp, $upload_dir . $name)){
-        $msg = "✅ File uploaded successfully: " . htmlspecialchars($name);
-    } else {
-        $error = "❌ Error uploading file. Please try again.";
+    if(!$error){
+        $name = $_FILES['file']['name'];
+        $tmp = $_FILES['file']['tmp_name'];
+        $size = $_FILES['file']['size'];
+        
+        // Sanitize filename
+        $name = basename($name);
+        
+        if(move_uploaded_file($tmp, $upload_dir . $name)){
+            $msg = "✅ File uploaded successfully: " . htmlspecialchars($name);
+        } else {
+            $error = "❌ Error uploading file. Please try again.";
+        }
     }
 }
 ?>
