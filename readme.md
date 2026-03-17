@@ -12,11 +12,18 @@
   <h3>🔥 Platform Pembelajaran Remote Code Execution (RCE) 🔥</h3>
   <p>Belajar keamanan web dengan praktik langsung dalam lingkungan yang aman</p>
   
-  <img src="https://raw.githubusercontent.com/Nothingness1312/RCE-Lab-Platform/main/docs/screenshot.png" alt="Screenshot" width="600">
-  
-</div>
+---
+
+## 📸 Preview
+
+<p align="center">
+  <img src="docs/register.png" width="30%" />
+  <img src="docs/home.png" width="30%" />
+  <img src="docs/level.png" width="30%" />
+</p>
 
 ---
+
 
 ## 📋 Daftar Isi
 - [✨ Fitur](#fitur)
