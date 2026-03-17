@@ -71,36 +71,30 @@ docker compose up -d
 
 ## 🔄 Reset Data
 
-Jika ingin menghapus semua progress user dan mengulang dari awal, gunakan script berikut:
+Ingin mengulang progress dari awal? Gunakan script berikut:
 
 ```bash
 ./reset.sh
 ```
 
-### 🧠 Penjelasan
+### 🔍 Apa yang dilakukan script ini?
 
-Script ini akan:
+- Menghentikan container Docker
 - Menghapus database (`db.sqlite`)
-- Menghapus file upload (jika ada)
-- Membuat ulang environment seperti baru
+- Membersihkan semua file upload
+- Mengembalikan kondisi lab seperti fresh install
 
 ---
 
-### ⚠️ Catatan
+### ⚠️ Catatan Penting
 
-- Pastikan Docker sudah dimatikan sebelum reset:
-  
-```bash
-docker compose down
-```
-
-- Setelah reset, jalankan kembali:
+Jika menjalankan di Windows (PowerShell), gunakan:
 
 ```bash
-docker compose up -d
+bash reset.sh
 ```
 
----
+Pastikan Docker sudah berjalan sebelum menjalankan ulang lab.
 
 ## 🎮 Cara Bermain
 
