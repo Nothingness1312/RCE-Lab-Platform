@@ -97,7 +97,7 @@ if(isset($_FILES['file'])){
         <div class="warning-box">
             <i class="fa-solid fa-shield-halved"></i>
             <div class="warning-content">
-                <strong>⚠️ Security Warning</strong>
+                <strong>Security Warning</strong>
                 <p>This is a deliberately vulnerable application for educational purposes. Never use these techniques on real systems.</p>
             </div>
         </div>

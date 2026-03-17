@@ -45,6 +45,7 @@ if (isset($_POST['username'])) {
 // =============================================
 $msg_level1 = "";
 $msg_level2 = "";
+$msg_level3 = "";
 $uid = null;
 
 // =============================================
@@ -68,6 +69,7 @@ if (isset($_SESSION['user'])) {
 // =============================================
 $solved_level1 = false;
 $solved_level2 = false;
+$solved_level3 = false;
 
 if ($uid) {
     $stmt = $db->prepare("SELECT level FROM progress WHERE user_id = :u");
@@ -81,6 +83,7 @@ if ($uid) {
 
     $solved_level1 = in_array(1, $solved_levels);
     $solved_level2 = in_array(2, $solved_levels);
+    $solved_level3 = in_array(3, $solved_levels);
 }
 
 // =============================================
@@ -104,7 +107,7 @@ if (isset($_POST['submit_level1']) && $uid && !$solved_level1) {
 // =============================================
 // SUBMIT FLAG FOR LEVEL 2
 // =============================================
-if (isset($_POST['submit_level2']) && $uid && $solved_level1 && !$solved_level2) {
+if (isset($_POST['submit_level2']) && $uid) {
     $flag2 = trim($_POST['flag_level2']);
 
     if (isset($env['LEVEL2_FLAG']) && $flag2 === $env['LEVEL2_FLAG']) {
@@ -112,10 +115,28 @@ if (isset($_POST['submit_level2']) && $uid && $solved_level1 && !$solved_level2)
         $stmt->bindValue(":u", $uid, SQLITE3_INTEGER);
         $stmt->execute();
 
-        $msg_level2 = "Correct! You've completed all available challenges!";
+        $msg_level2 = "Correct! Level 3 has been unlocked.";
         $solved_level2 = true;
     } else {
         $msg_level2 = "Wrong flag for Level 2.";
+    }
+}
+
+// =============================================
+// SUBMIT FLAG FOR LEVEL 3
+// =============================================
+if (isset($_POST['submit_level3']) && $uid) {
+    $flag3 = trim($_POST['flag_level3']);
+
+    if (isset($env['LEVEL3_FLAG']) && $flag3 === $env['LEVEL3_FLAG']) {
+        $stmt = $db->prepare("INSERT INTO progress(user_id, level, solved) VALUES(:u, 3, 1)");
+        $stmt->bindValue(":u", $uid, SQLITE3_INTEGER);
+        $stmt->execute();
+
+        $msg_level3 = "Correct! You've conquered all challenges!";
+        $solved_level3 = true;
+    } else {
+        $msg_level3 = "Wrong flag for Level 3.";
     }
 }
 
@@ -195,33 +216,14 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
         </div>
 
         <!-- Level 2 Progress Chip -->
-        <div class="progress-chip 
-            <?php 
-            if ($solved_level2) {
-                echo 'done';
-            } elseif ($solved_level1) {
-                echo 'available';
-            } else {
-                echo 'locked';
-            }
-            ?>">
-            <i class="fa-solid 
-                <?php 
-                if ($solved_level2) {
-                    echo 'fa-check-circle';
-                } elseif ($solved_level1) {
-                    echo 'fa-unlock';
-                } else {
-                    echo 'fa-lock';
-                }
-                ?>">
-            </i>
+        <div class="progress-chip <?php echo $solved_level2 ? 'done' : 'available'; ?>">
+            <i class="fa-solid <?php echo $solved_level2 ? 'fa-check-circle' : 'fa-unlock'; ?>"></i>
             Level 2
         </div>
 
-        <!-- Level 3 Progress Chip (Future) -->
-        <div class="progress-chip future">
-            <i class="fa-solid fa-clock"></i>
+        <!-- Level 3 Progress Chip -->
+        <div class="progress-chip <?php echo $solved_level3 ? 'done' : 'available'; ?>">
+            <i class="fa-solid <?php echo $solved_level3 ? 'fa-check-circle' : 'fa-unlock'; ?>"></i>
             Level 3
         </div>
     </div>
@@ -273,13 +275,11 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
 
         <!-- ===== LEVEL 2 CARD ===== -->
         <div class="challenge-card 
-            <?php 
-            if ($solved_level2) {
-                echo 'solved';
-            } elseif (!$solved_level1) {
-                echo 'locked';
-            }
-            ?>">
+    <?php 
+    if ($solved_level2) {
+        echo 'solved';
+    }
+    ?>">
             
             <!-- Card Header -->
             <div class="challenge-card-header">
@@ -289,19 +289,15 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
                 </div>
                 <?php if ($solved_level2): ?>
                     <span class="status-badge solved"><i class="fa-solid fa-check"></i> Done</span>
-                <?php elseif ($solved_level1): ?>
-                    <span class="status-badge unsolved"><i class="fa-solid fa-circle"></i> Active</span>
                 <?php else: ?>
-                    <span class="status-badge locked"><i class="fa-solid fa-lock"></i> Locked</span>
+                    <span class="status-badge unsolved"><i class="fa-solid fa-circle"></i> Active</span>
                 <?php endif; ?>
             </div>
 
-            <!-- Access Link (Visible only if Level 1 is solved) -->
-            <?php if ($solved_level1): ?>
-                <a href="/levels/level2/" class="challenge-access">
-                    <i class="fa-solid fa-terminal"></i> Access Challenge
-                </a>
-            <?php endif; ?>
+            <!-- Access Link (Always Visible) -->
+            <a href="/levels/level2/" class="challenge-access">
+                <i class="fa-solid fa-terminal"></i> Access Challenge
+            </a>
 
             <!-- Conditional Content based on Progress -->
             <?php
@@ -313,16 +309,7 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
                 </div>
 
             <?php
-            // CASE 2: Level 1 Not Completed (Locked)
-            elseif (!$solved_level1):
-            ?>
-                <div class="locked-content">
-                    <i class="fa-solid fa-lock"></i>
-                    <p>Complete Level 1 first</p>
-                </div>
-
-            <?php
-            // CASE 3: Level 1 Completed, Level 2 Not Completed (Active)
+            // CASE 2: Level 2 Not Completed (Active)
             else:
             ?>
                 <div class="compact-flag-form">
@@ -339,13 +326,66 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
             <?php endif; ?>
         </div>
 
+        <!-- ===== LEVEL 3 CARD ===== -->
+        <div class="challenge-card 
+    <?php 
+    if ($solved_level3) {
+        echo 'solved';
+    }
+    ?>">
+            
+            <!-- Card Header -->
+            <div class="challenge-card-header">
+                <div>
+                    <span class="challenge-level">Challenge 3</span>
+                    <h3>Hostile RCE</h3>
+                </div>
+                <?php if ($solved_level3): ?>
+                    <span class="status-badge solved"><i class="fa-solid fa-check"></i> Done</span>
+                <?php else: ?>
+                    <span class="status-badge unsolved"><i class="fa-solid fa-circle"></i> Active</span>
+                <?php endif; ?>
+            </div>
+
+            <!-- Access Link (Always Visible) -->
+            <a href="/levels/level3/" class="challenge-access">
+                <i class="fa-solid fa-terminal"></i> Access Challenge
+            </a>
+
+            <!-- Conditional Content based on Progress -->
+            <?php
+            // CASE 1: Level 3 Completed
+            if ($solved_level3):
+            ?>
+                <div class="compact-completed">
+                    <i class="fa-solid fa-trophy"></i> Completed
+                </div>
+
+            <?php
+            // CASE 2: Level 3 Not Completed (Active)
+            else:
+            ?>
+                <div class="compact-flag-form">
+                    <form method="POST">
+                        <input type="text" name="flag_level3" placeholder="flag{...}" required>
+                        <button type="submit" name="submit_level3" class="small-btn">Submit</button>
+                    </form>
+                    <?php if ($msg_level3): ?>
+                        <div class="mini-msg <?php echo strpos($msg_level3, 'Correct') !== false ? 'success' : 'error'; ?>">
+                            <?php echo htmlspecialchars($msg_level3, ENT_QUOTES, 'UTF-8'); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
         <!-- ===== COMMUNITY CARD (FULL WIDTH) ===== -->
-        <div class="community-compact-card <?php echo $solved_level2 ? 'highlight' : ''; ?>">
+        <div class="community-compact-card <?php echo $solved_level3 ? 'highlight' : ''; ?>">
             <!-- Community Header -->
             <div class="community-compact-header">
                 <h3><i class="fa-solid fa-users"></i> Community</h3>
-                <?php if ($solved_level2): ?>
-                    <span class="next-badge"><i class="fa-solid fa-star"></i> Next Level Soon</span>
+                <?php if ($solved_level3): ?>
+                    <span class="next-badge"><i class="fa-solid fa-star"></i> Master Achieved!</span>
                 <?php endif; ?>
             </div>
 
@@ -377,11 +417,11 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
                 </div>
             </div>
 
-            <!-- Preview Teaser (Only if Level 2 Completed) -->
-            <?php if ($solved_level2): ?>
+            <!-- Preview Teaser (Only if Level 3 Completed) -->
+            <?php if ($solved_level3): ?>
                 <div class="preview-teaser">
-                    <i class="fa-solid fa-eye"></i>
-                    <span>Level 3?</span>
+                    <i class="fa-solid fa-crown"></i>
+                    <span>Champion!</span>
                 </div>
             <?php endif; ?>
 
