@@ -1,0 +1,615 @@
+/* style.css - Mini RCE Platform (Compact Version) */
+
+/* ===== RESET & BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #e2e8f0;
+    min-height: 100vh;
+}
+
+/* ===== HEADER & NAVIGATION ===== */
+.header {
+    background: linear-gradient(90deg, #020617 0%, #0f172a 100%);
+    padding: 15px 30px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #f1f5f9;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #334155;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-link {
+    color: #94a3b8;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.social-link:hover {
+    color: #f1f5f9;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.social-link i {
+    font-size: 16px;
+}
+
+/* ===== LAYOUT ===== */
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+/* ===== WELCOME CARD ===== */
+.welcome-card {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #334155;
+}
+
+.welcome-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.welcome-content i {
+    font-size: 32px;
+    color: #22c55e;
+}
+
+.welcome-content h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.welcome-content h3 span {
+    color: #22c55e;
+}
+
+.welcome-content p {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+/* ===== PROGRESS OVERVIEW ===== */
+.progress-overview {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.progress-chip {
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid #334155;
+}
+
+.progress-chip.done {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: #22c55e;
+    color: #4ade80;
+}
+
+.progress-chip.pending {
+    background: rgba(251, 191, 36, 0.15);
+    border-color: #f59e0b;
+    color: #fbbf24;
+}
+
+.progress-chip.available {
+    background: rgba(56, 189, 248, 0.15);
+    border-color: #38bdf8;
+    color: #7dd3fc;
+}
+
+.progress-chip.locked {
+    opacity: 0.5;
+}
+
+.progress-chip.future {
+    background: rgba(100, 116, 139, 0.15);
+    border-color: #64748b;
+    color: #94a3b8;
+}
+
+/* ===== CHALLENGES GRID ===== */
+.challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Challenge Card */
+.challenge-card {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #334155;
+}
+
+.challenge-card.solved {
+    border-color: #22c55e;
+    background: rgba(34, 197, 94, 0.05);
+}
+
+.challenge-card.locked {
+    opacity: 0.7;
+    background: rgba(15, 23, 42, 0.6);
+}
+
+.challenge-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.challenge-level {
+    font-size: 12px;
+    color: #94a3b8;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.challenge-card-header h3 {
+    font-size: 16px;
+    color: #f1f5f9;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.status-badge.solved {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+}
+
+.status-badge.unsolved {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+}
+
+.status-badge.locked {
+    background: rgba(100, 116, 139, 0.2);
+    color: #94a3b8;
+}
+
+.challenge-access {
+    display: block;
+    padding: 8px;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid #38bdf8;
+    border-radius: 8px;
+    color: #7dd3fc;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.challenge-access:hover {
+    background: rgba(56, 189, 248, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Compact Form */
+.compact-flag-form {
+    margin-top: 10px;
+}
+
+.compact-flag-form form {
+    display: flex;
+    gap: 8px;
+}
+
+.compact-flag-form input {
+    flex: 1;
+    padding: 8px 12px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    color: #f1f5f9;
+    font-size: 13px;
+}
+
+.compact-flag-form input:focus {
+    outline: none;
+    border-color: #22c55e;
+}
+
+.small-btn {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.small-btn:hover {
+    transform: translateY(-2px);
+}
+
+.mini-msg {
+    margin-top: 8px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.mini-msg.success {
+    background: rgba(34, 197, 94, 0.1);
+    border-left: 3px solid #22c55e;
+    color: #4ade80;
+}
+
+.mini-msg.error {
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 3px solid #ef4444;
+    color: #f87171;
+}
+
+.compact-completed {
+    margin-top: 10px;
+    padding: 8px;
+    background: rgba(34, 197, 94, 0.1);
+    border-radius: 6px;
+    text-align: center;
+    color: #4ade80;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.locked-content {
+    margin-top: 10px;
+    padding: 12px;
+    background: rgba(100, 116, 139, 0.1);
+    border-radius: 6px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+.locked-content i {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+/* ===== COMMUNITY COMPACT CARD ===== */
+.community-compact-card {
+    grid-column: span 2;
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #38bdf8;
+    margin-top: 5px;
+}
+
+.community-compact-card.highlight {
+    border-color: #22c55e;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+}
+
+.community-compact-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.community-compact-header h3 {
+    font-size: 16px;
+    color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.next-badge {
+    padding: 4px 10px;
+    background: rgba(251, 191, 36, 0.15);
+    border: 1px solid #f59e0b;
+    border-radius: 20px;
+    color: #fbbf24;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.community-compact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+.community-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 8px;
+}
+
+.community-item i {
+    font-size: 24px;
+}
+
+.discord-icon {
+    color: #5865F2;
+}
+
+.github-icon {
+    color: #f0f6fc;
+}
+
+.color-sample {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    margin-left: 5px;
+    vertical-align: middle;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+}
+
+.community-item div {
+    flex: 1;
+}
+
+.community-item strong {
+    display: block;
+    font-size: 14px;
+    color: #f1f5f9;
+}
+
+.community-item p {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+.compact-link {
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.discord-link {
+    background: #5865F2;
+    color: white;
+}
+
+.discord-link:hover {
+    background: #4752c4;
+}
+
+.github-link {
+    background: #24292e;
+    color: white;
+}
+
+.github-link:hover {
+    background: #1b1f23;
+}
+
+.preview-teaser {
+    padding: 8px 12px;
+    background: rgba(56, 189, 248, 0.1);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #7dd3fc;
+}
+
+.community-note-compact {
+    padding: 8px 12px;
+    background: rgba(251, 191, 36, 0.1);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #fbbf24;
+    border-left: 3px solid #fbbf24;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    color: #64748b;
+    border-top: 1px solid #334155;
+    font-size: 13px;
+}
+
+.footer a {
+    color: #38bdf8;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.footer a:hover {
+    color: #7dd3fc;
+    text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+    .challenges-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .community-compact-card {
+        grid-column: span 1;
+    }
+    
+    .community-compact-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .compact-flag-form form {
+        flex-direction: column;
+    }
+}
+
+/* ===== REGISTER CARD ===== */
+.card {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 16px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(51, 65, 85, 0.5);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+    border-color: #4f5b6b;
+}
+
+.card h2 {
+    color: #f1f5f9;
+    margin-bottom: 20px;
+    font-size: 24px;
+    border-bottom: 2px solid #334155;
+    padding-bottom: 10px;
+}
+
+/* Form Row untuk Register */
+.form-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.form-row input {
+    flex: 1;
+    min-width: 250px;
+    padding: 12px 16px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    color: #f1f5f9;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-row input:focus {
+    outline: none;
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+}
+
+.form-row input:invalid {
+    border-color: #ef4444;
+}
+
+.form-row input:valid {
+    border-color: #22c55e;
+}
+
+.form-row button {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 0;
+    box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.3);
+    white-space: nowrap;
+}
+
+.form-row button:hover {
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px -1px rgba(34, 197, 94, 0.4);
+}
+
+/* Responsive untuk Register */
+@media (max-width: 700px) {
+    .form-row {
+        flex-direction: column;
+    }
+    
+    .form-row input,
+    .form-row button {
+        width: 100%;
+    }
+}
