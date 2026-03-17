@@ -1,9 +1,5 @@
 FROM php:8.1-apache
 
-# Enable SQLite3 extension
-RUN docker-php-ext-install sqlite3 \
- && docker-php-ext-enable sqlite3
-
 COPY . /var/www/html/
 
 # Create data directory with full permissions
