@@ -19,16 +19,16 @@
 ---
 
 ## 📋 Daftar Isi
-- [✨ Fitur](#-fitur)
-- [⚡ Quick Start](#-quick-start)
-- [📦 Instalasi Manual](#-instalasi-manual)
-- [🔄 Reset Data](#-reset-data)
-- [🎮 Cara Bermain](#-cara-bermain)
-- [📁 Struktur Project](#-struktur-project)
-- [🧠 Tujuan Pembelajaran](#-tujuan-pembelajaran)
-- [⚠️ Catatan (Bisa Curang, Tapi…)](#-catatan-penting)
-- [💬 Community](#-community)
-- [🏁 Penutup](#-penutup)
+- [✨ Fitur](#fitur)
+- [⚡ Quick Start](#quick-start)
+- [📦 Instalasi Manual](#instalasi-manual)
+- [🔄 Reset Data](#reset-data)
+- [🎮 Cara Bermain](#cara-bermain)
+- [📁 Struktur Project](#struktur-project)
+- [🧠 Tujuan Pembelajaran](#tujuan-pembelajaran)
+- [⚠️ Catatan Penting](#catatan-penting)
+- [💬 Community](#community)
+- [🏁 Penutup](#penutup)
 
 ---
 
@@ -71,30 +71,28 @@ docker compose up -d
 
 ## 🔄 Reset Data
 
-Ingin mengulang progress dari awal? Gunakan script berikut:
+Ingin mengulang progress dari awal? Gunakan:
 
 ```bash
 ./reset.sh
 ```
 
-### 🔍 Apa yang dilakukan script ini?
+### 🔍 Penjelasan
 
-- Menghentikan container Docker
-- Menghapus database (`db.sqlite`)
-- Membersihkan semua file upload
-- Mengembalikan kondisi lab seperti fresh install
+- Menghentikan container Docker  
+- Menghapus database (`db.sqlite`)  
+- Membersihkan file upload  
+- Reset kondisi seperti baru  
 
----
+### ⚠️ Catatan
 
-### ⚠️ Catatan Penting
-
-Jika menjalankan di Windows (PowerShell), gunakan:
+Jika di Windows (PowerShell):
 
 ```bash
 bash reset.sh
 ```
 
-Pastikan Docker sudah berjalan sebelum menjalankan ulang lab.
+---
 
 ## 🎮 Cara Bermain
 
@@ -139,29 +137,27 @@ Pastikan Docker sudah berjalan sebelum menjalankan ulang lab.
 
 ---
 
----
+## ⚠️ Catatan Penting
 
-## ⚠️ Catatan (Bisa Curang, Tapi…)
-
-Platform ini berjalan **sepenuhnya secara lokal** di mesin kamu.
+Platform ini berjalan **secara lokal (localhost)**.
 
 Artinya:
-- Semua file bisa kamu akses langsung
-- Termasuk konfigurasi internal dan file lainnya
+- Semua file ada di mesin kamu  
+- Termasuk konfigurasi internal  
 
-> ⚠️ Kamu *bisa saja* membaca file seperti `.env` atau file lain secara langsung  
+> Kamu *bisa saja* membaca file seperti `.env` atau file lain secara langsung,  
 > tapi itu bukan tujuan dari challenge ini.
 
-🎯 Fokus utamanya adalah:
-- memahami vulnerability
-- eksploitasi lewat aplikasi
-- bukan mengambil jalan pintas
+🎯 Fokus:
+- memahami vulnerability  
+- eksploitasi lewat aplikasi  
+- bukan shortcut  
 
 ---
 
 ## 💬 Community
 
-- Discord: https://discord.gg/nH94vYstKA
+- Discord: https://discord.gg/nH94vYstKA  
 - GitHub: https://github.com/Nothingness1312/RCE-Lab-Platform  
 
 ---
