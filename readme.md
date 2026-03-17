@@ -26,6 +26,7 @@
 - [🎮 Cara Bermain](#-cara-bermain)
 - [📁 Struktur Project](#-struktur-project)
 - [🧠 Tujuan Pembelajaran](#-tujuan-pembelajaran)
+- [⚠️ Catatan (Bisa Curang, Tapi…)](#️-catatan-penting)
 - [💬 Community](#-community)
 - [🏁 Penutup](#-penutup)
 
