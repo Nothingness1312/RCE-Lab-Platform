@@ -61,10 +61,54 @@ http://localhost:8080
 
 ## 📦 Instalasi Manual
 
+### Linux / macOS
+
 ```bash
+# 1. Clone repository
 git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git
 cd RCE-Lab-Platform
+
+# 2. Jalankan Docker Compose
 docker compose up -d
+
+# 3. Cek status container
+docker compose logs rce
+```
+
+Jika ada error permission `/data`:
+
+```bash
+# Buat directory dengan permission
+mkdir -p data
+chmod 777 data
+
+# Rebuild container
+docker compose down -v
+docker compose build --no-cache
+docker compose up -d
+```
+
+### Windows (PowerShell)
+
+```powershell
+# 1. Clone repository
+git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git
+cd RCE-Lab-Platform
+
+# 2. Jalankan Docker Compose
+docker compose up -d
+
+# 3. Cek status
+docker compose logs rce
+```
+
+### Verifikasi Setup
+
+```bash
+# Test akses aplikasi
+curl http://localhost:8080
+
+# Atau buka di browser: http://localhost:8080
 ```
 
 ---
