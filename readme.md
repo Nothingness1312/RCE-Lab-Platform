@@ -18,11 +18,10 @@
 ## 📸 Preview
 
 <p align="center">
-  <img src="docs/register.png" width="100%" />
-  <img src="docs/home.png" width="100%" />
-  <img src="docs/level.png" width="100%" />
+  <img src="docs/register.png" width="70%" /><br><br>
+  <img src="docs/home.png" width="70%" /><br><br>
+  <img src="docs/level.png" width="70%" />
 </p>
-
 ---
 
 
