@@ -136,10 +136,7 @@ if(isset($_FILES['file'])){
                 <i class="fa-solid fa-circle-info"></i>
                 <p>This challenge demonstrates MIME type bypass techniques. The server checks both extension and MIME type, but there may be ways around it...</p>
             </div>
-            <div class="description-item">
-                <i class="fa-solid fa-circle-info"></i>
-                <p><strong>Hints:</strong> Try uploading a PHP file with .jpg extension, or modify the Content-Type header. Once uploaded, access the file directly to execute commands.</p>
-            </div>
+
             <div class="description-item">
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 <p><strong>Your goal:</strong> Get the flag by finding how to bypass the file upload restrictions and execute code</p>
