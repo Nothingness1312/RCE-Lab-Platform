@@ -85,7 +85,6 @@ if(isset($_FILES['file'])){
     }
 }
 ?>
-?>
 
 <!DOCTYPE html>
 <html lang="en">
