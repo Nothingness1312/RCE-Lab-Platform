@@ -16,14 +16,12 @@ $error = "";
 
 // Handle file upload
 if(isset($_FILES['file'])){
-    $upload_dir = __DIR__ . "/uploads/";
+    $upload_dir = "uploads/";
     
     // Create uploads directory if it doesn't exist
     if(!is_dir($upload_dir)){
         if(!mkdir($upload_dir, 0777, true)){
             $error = "Error: Cannot create uploads directory. Check permissions.";
-        } else {
-            @chmod($upload_dir, 0777);
         }
     }
     
@@ -32,7 +30,7 @@ if(isset($_FILES['file'])){
         @chmod($upload_dir, 0777);
     }
     
-    if(!$error){
+    if(!$error && isset($_FILES['file']['tmp_name']) && $_FILES['file']['tmp_name']){
         $name = $_FILES['file']['name'];
         $tmp = $_FILES['file']['tmp_name'];
         
@@ -67,7 +65,7 @@ if(isset($_FILES['file'])){
             if(move_uploaded_file($tmp, $target_path)){
                 $msg = "File successfully uploaded to: /uploads/" . htmlspecialchars($new_name);
             } else {
-                $error = "Error uploading file (move_uploaded_file failed). Please try again.";
+                $error = "Error uploading file. Please try again.";
             }
         }
     }

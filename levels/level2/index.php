@@ -16,9 +16,14 @@ if(isset($_FILES['file'])){
     
     // Create uploads directory if it doesn't exist
     if(!is_dir($upload_dir)){
-        if(!mkdir($upload_dir, 0755, true)){
+        if(!mkdir($upload_dir, 0777, true)){
             $error = "❌ Error: Cannot create uploads directory. Check permissions.";
         }
+    }
+    
+    // Ensure directory is writable
+    if(!is_writable($upload_dir)){
+        @chmod($upload_dir, 0777);
     }
     
     if(!$error){
