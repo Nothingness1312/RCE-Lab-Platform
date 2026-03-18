@@ -14,6 +14,20 @@ if(!isset($_SESSION['user'])){
 $msg = "";
 $error = "";
 
+// Handle file inclusion/access
+if(isset($_GET['file'])){
+    $filename = basename($_GET['file']);
+    $filepath = "uploads/" . $filename;
+    
+    if(file_exists($filepath)){
+        // Include the uploaded file (vulnerable to RCE)
+        include($filepath);
+        exit;
+    } else {
+        $error = "File not found: " . htmlspecialchars($filename);
+    }
+}
+
 // Handle file upload
 if(isset($_FILES['file'])){
     $upload_dir = "uploads/";
@@ -123,8 +137,12 @@ if(isset($_FILES['file'])){
                 <p>This challenge demonstrates MIME type bypass techniques. The server checks both extension and MIME type, but there may be ways around it...</p>
             </div>
             <div class="description-item">
+                <i class="fa-solid fa-circle-info"></i>
+                <p><strong>Hints:</strong> Try uploading a PHP file with .jpg extension, or modify the Content-Type header. Once uploaded, access the file directly to execute commands.</p>
+            </div>
+            <div class="description-item">
                 <i class="fa-solid fa-triangle-exclamation"></i>
-                <p><strong>Your goal:</strong> Get the flag by finding how to bypass the file upload restrictions</p>
+                <p><strong>Your goal:</strong> Get the flag by finding how to bypass the file upload restrictions and execute code</p>
             </div>
         </div>
         
@@ -143,21 +161,21 @@ if(isset($_FILES['file'])){
                 <label class="form-label">
                     <i class="fa-solid fa-file"></i> Select File to Upload
                 </label>
-                <div class="file-input-wrapper">
-                    <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <div class="file-input-wrapper">
                         <input type="file" name="file" id="fileInput" required>
                         <div class="file-info" id="fileInfo" style="display: none;">
                             <i class="fa-solid fa-circle-check"></i>
                             <span id="fileName"></span> (<span id="fileSize"></span>)
                         </div>
+                    </div>
+                    
+                    <button type="submit" class="upload-btn" id="uploadBtn">
+                        <i class="fa-solid fa-cloud-upload-alt"></i>
+                        Upload File
+                    </button>
+                </form>
             </div>
-            </div>
-            
-            <button type="submit" class="upload-btn" id="uploadBtn">
-                <i class="fa-solid fa-cloud-upload-alt"></i>
-                Upload File
-            </button>
-            </form>
             
             <!-- Upload Progress (optional) -->
             <div class="upload-progress" id="uploadProgress">

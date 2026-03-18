@@ -126,20 +126,20 @@ if(isset($_GET['cmd'])){
                 <label class="form-label">
                     <i class="fa-solid fa-terminal"></i> Enter Command
                 </label>
-                <div class="file-input-wrapper">
-                    <form method="GET" id="commandForm">
+                <form method="GET" id="commandForm">
+                    <div class="file-input-wrapper">
                         <div class="command-input-wrapper">
                             <i class="fa-solid fa-chevron-right"></i>
                             <input type="text" name="cmd" placeholder="Enter command..." value="<?= htmlspecialchars($cmd) ?>" required>
                         </div>
                     </div>
-                </div>
-                
-                <button type="submit" class="upload-btn" id="runBtn">
-                    <i class="fa-solid fa-play"></i>
-                    Run Command
-                </button>
+                    
+                    <button type="submit" class="upload-btn" id="runBtn">
+                        <i class="fa-solid fa-play"></i>
+                        Run Command
+                    </button>
                 </form>
+            </div>
             
             <!-- Command Display -->
             <?php if(!empty($cmd)): ?>

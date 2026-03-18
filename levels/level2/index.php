@@ -113,21 +113,21 @@ if(isset($_FILES['file'])){
                 <label class="form-label">
                     <i class="fa-solid fa-file"></i> Upload Your Payload
                 </label>
-                <div class="file-input-wrapper">
-                    <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <div class="file-input-wrapper">
                         <input type="file" name="file" id="fileInput" required>
                         <div class="file-info" id="fileInfo" style="display: none;">
                             <i class="fa-solid fa-circle-check"></i>
                             <span id="fileName"></span> (<span id="fileSize"></span>)
                         </div>
                     </div>
-                </div>
-                
-                <button type="submit" class="upload-btn" id="uploadBtn">
-                    <i class="fa-solid fa-cloud-upload-alt"></i>
-                    Upload Payload
-                </button>
+                    
+                    <button type="submit" class="upload-btn" id="uploadBtn">
+                        <i class="fa-solid fa-cloud-upload-alt"></i>
+                        Upload Payload
+                    </button>
                 </form>
+            </div>
             
             <!-- Message Display -->
             <?php if(!empty($msg)): ?>
