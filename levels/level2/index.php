@@ -35,7 +35,7 @@ if(isset($_FILES['file'])){
         $name = basename($name);
         
         if(move_uploaded_file($tmp, $upload_dir . $name)){
-            $msg = "✅ File uploaded successfully: " . htmlspecialchars($name);
+            $msg = "File successfully uploaded to: /uploads/" . htmlspecialchars($name);
         } else {
             $error = "❌ Error uploading file. Please try again.";
         }
@@ -134,7 +134,7 @@ if(isset($_FILES['file'])){
                 <div class="msg-box">
                     <i class="fa-solid fa-circle-check"></i>
                     <div class="msg-content">
-                        <div class="msg-title">Success</div>
+                        <div class="msg-title">Upload Result</div>
                         <div class="msg-text"><?php echo $msg; ?></div>
                     </div>
                 </div>
