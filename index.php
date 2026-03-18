@@ -233,20 +233,20 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
         </div>
 
         <!-- Level 2 Progress Chip -->
-        <div class="progress-chip <?php echo $solved_level2 ? 'done' : 'available'; ?>">
-            <i class="fa-solid <?php echo $solved_level2 ? 'fa-check-circle' : 'fa-unlock'; ?>"></i>
+        <div class="progress-chip <?php echo $solved_level2 ? 'done' : 'pending'; ?>">
+            <i class="fa-solid <?php echo $solved_level2 ? 'fa-check-circle' : 'fa-circle'; ?>"></i>
             Level 2
         </div>
 
         <!-- Level 3 Progress Chip -->
-        <div class="progress-chip <?php echo $solved_level3 ? 'done' : 'available'; ?>">
-            <i class="fa-solid <?php echo $solved_level3 ? 'fa-check-circle' : 'fa-unlock'; ?>"></i>
+        <div class="progress-chip <?php echo $solved_level3 ? 'done' : 'pending'; ?>">
+            <i class="fa-solid <?php echo $solved_level3 ? 'fa-check-circle' : 'fa-circle'; ?>"></i>
             Level 3
         </div>
 
         <!-- Level 4 Progress Chip -->
-        <div class="progress-chip <?php echo $solved_level4 ? 'done' : 'available'; ?>">
-            <i class="fa-solid <?php echo $solved_level4 ? 'fa-check-circle' : 'fa-unlock'; ?>"></i>
+        <div class="progress-chip <?php echo $solved_level4 ? 'done' : 'pending'; ?>">
+            <i class="fa-solid <?php echo $solved_level4 ? 'fa-check-circle' : 'fa-circle'; ?>"></i>
             Level 4
         </div>
     </div>
