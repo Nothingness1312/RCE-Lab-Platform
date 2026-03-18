@@ -122,10 +122,10 @@ curl http://localhost:8080
 
 ## 🔄 Reset Data
 
-Ingin mengulang progress dari awal? Gunakan:
+Ingin mengulang progress dari awal? Gunakan: + kalau error gabisa upload
 
 ```bash
-./reset.sh
+sudo ./reset.sh
 ```
 
 ### 🔍 Penjelasan
