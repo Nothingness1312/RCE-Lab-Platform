@@ -55,7 +55,7 @@
 ## ⚡ Quick Start
 
 ```bash
-git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git && cd RCE-Lab-Platform && docker compose up -d
+git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git && cd RCE-Lab-Platform && sudo docker compose up -d
 ```
 
 Buka di browser:
@@ -76,10 +76,10 @@ git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git
 cd RCE-Lab-Platform
 
 # 2. Jalankan Docker Compose
-docker compose up -d
+sudo docker compose up -d
 
 # 3. Cek status container
-docker compose logs rce
+sudo docker compose logs rce
 ```
 
 Jika ada error permission `/data`:
