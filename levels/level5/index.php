@@ -19,7 +19,7 @@ $db->exec("CREATE TABLE IF NOT EXISTS level5_users (
 $result = $db->query("SELECT COUNT(*) as count FROM level5_users");
 $row = $result->fetchArray(SQLITE3_ASSOC);
 if ($row['count'] == 0) {
-    $db->exec("INSERT INTO level5_users (username, password) VALUES ('kataketuactfnyagampangjadicobaajadulu', 'aaoijioahdcnwnacwncawuiwcnca')");
+    $db->exec("INSERT INTO level5_users (username, password) VALUES ('kataketuactfnyagampangjadicobaajadulu', 'aaoijioahaadcnwnacwncawuiwcnca')");
 }
 
 $message = "";
