@@ -55,7 +55,7 @@
 ## ⚡ Quick Start
 
 ```bash
-git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git && cd RCE-Lab-Platform && sudo docker compose up -d
+git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git && cd RCE-Lab-Platform && docker compose up -d
 ```
 
 Buka di browser:
@@ -76,11 +76,26 @@ git clone https://github.com/Nothingness1312/RCE-Lab-Platform.git
 cd RCE-Lab-Platform
 
 # 2. Jalankan Docker Compose
-sudo docker compose up -d
+docker compose up -d
 
 # 3. Cek status container
-sudo docker compose logs rce
+docker compose logs rce
 ```
+
+> ⚠️ Note (Linux):
+> Jika Docker memerlukan permission root, kamu bisa:
+>
+> **1. Gunakan sementara dengan sudo**
+> ```bash
+> sudo docker compose up -d
+> ```
+>
+> **2. Atau setup agar tidak perlu sudo (recommended)**
+> ```bash
+> sudo usermod -aG docker $USER
+> newgrp docker
+> ```
+>
 
 Jika ada error permission `/data`:
 
