@@ -41,18 +41,9 @@ if (isset($_POST['username'])) {
 }
 
 // =============================================
-// INITIALIZE VARIABLES
-// =============================================
-$uid = null;
-$msg_level1 = '';
-$msg_level2 = '';
-$msg_level3 = '';
-$msg_level4 = '';
-$msg_level5 = '';
-
-// =============================================
 // GET USER ID FROM SESSION
 // =============================================
+$uid = null;
 if (isset($_SESSION['user'])) {
     $stmt = $db->prepare("SELECT id FROM users WHERE username = :u");
     $stmt->bindValue(":u", $_SESSION['user']);
@@ -67,115 +58,23 @@ if (isset($_SESSION['user'])) {
 }
 
 // =============================================
-// CHECK USER PROGRESS (SINGLE QUERY)
+// CHECK USER PROGRESS
 // =============================================
-$solved_level1 = false;
-$solved_level2 = false;
-$solved_level3 = false;
-$solved_level4 = false;
-$solved_level5 = false;
-
+$solved_levels = [];
 if ($uid) {
     $stmt = $db->prepare("SELECT level FROM progress WHERE user_id = :u");
     $stmt->bindValue(":u", $uid);
     $res = $stmt->execute();
 
-    $solved_levels = [];
     while ($row = $res->fetchArray(SQLITE3_ASSOC)) {
         $solved_levels[] = $row['level'];
     }
-
-    $solved_level1 = in_array(1, $solved_levels);
-    $solved_level2 = in_array(2, $solved_levels);
-    $solved_level3 = in_array(3, $solved_levels);
-    $solved_level4 = in_array(4, $solved_levels);
-    $solved_level5 = in_array(5, $solved_levels);
 }
 
 // =============================================
-// SUBMIT FLAG FOR LEVEL 1
+// INCLUDE ALL LEVEL LOGIC (HANDLERS + DISPLAY)
 // =============================================
-if (isset($_POST['submit_level1']) && $uid && !$solved_level1) {
-    $flag = trim($_POST['flag_level1']);
-
-    if (isset($env['LEVEL1_FLAG']) && $flag === $env['LEVEL1_FLAG']) {
-        $stmt = $db->prepare("INSERT INTO progress(user_id, level, solved) VALUES(:u, 1, 1)");
-        $stmt->bindValue(":u", $uid, SQLITE3_INTEGER);
-        $stmt->execute();
-
-        $solved_level1 = true;
-    } else {
-        $msg_level1 = "Wrong flag for Level 1.";
-    }
-}
-
-// =============================================
-// SUBMIT FLAG FOR LEVEL 2
-// =============================================
-if (isset($_POST['submit_level2']) && $uid) {
-    $flag2 = trim($_POST['flag_level2']);
-
-    if (isset($env['LEVEL2_FLAG']) && $flag2 === $env['LEVEL2_FLAG']) {
-        $stmt = $db->prepare("INSERT INTO progress(user_id, level, solved) VALUES(:u, 2, 1)");
-        $stmt->bindValue(":u", $uid, SQLITE3_INTEGER);
-        $stmt->execute();
-
-        $solved_level2 = true;
-    } else {
-        $msg_level2 = "Wrong flag for Level 2.";
-    }
-}
-
-// =============================================
-// SUBMIT FLAG FOR LEVEL 3
-// =============================================
-if (isset($_POST['submit_level3']) && $uid) {
-    $flag3 = trim($_POST['flag_level3']);
-
-    if (isset($env['LEVEL3_FLAG']) && $flag3 === $env['LEVEL3_FLAG']) {
-        $stmt = $db->prepare("INSERT INTO progress(user_id, level, solved) VALUES(:u, 3, 1)");
-        $stmt->bindValue(":u", $uid, SQLITE3_INTEGER);
-        $stmt->execute();
-
-        $solved_level3 = true;
-    } else {
-        $msg_level3 = "Wrong flag for Level 3.";
-    }
-}
-
-// =============================================
-// SUBMIT FLAG FOR LEVEL 4
-// =============================================
-if (isset($_POST['submit_level4']) && $uid && !$solved_level4) {
-    $flag4 = trim($_POST['flag_level4']);
-
-    if (isset($env['LEVEL4_FLAG']) && $flag4 === $env['LEVEL4_FLAG']) {
-        $stmt = $db->prepare("INSERT INTO progress(user_id, level, solved) VALUES(:u, 4, 1)");
-        $stmt->bindValue(":u", $uid, SQLITE3_INTEGER);
-        $stmt->execute();
-
-        $solved_level4 = true;
-    } else {
-        $msg_level4 = "Wrong flag for Level 4.";
-    }
-}
-
-// =============================================
-// SUBMIT FLAG FOR LEVEL 5
-// =============================================
-if (isset($_POST['submit_level5']) && $uid && !$solved_level5) {
-    $flag5 = trim($_POST['flag_level5']);
-
-    if (isset($env['LEVEL5_FLAG']) && $flag5 === $env['LEVEL5_FLAG']) {
-        $stmt = $db->prepare("INSERT INTO progress(user_id, level, solved) VALUES(:u, 5, 1)");
-        $stmt->bindValue(":u", $uid, SQLITE3_INTEGER);
-        $stmt->execute();
-
-        $solved_level5 = true;
-    } else {
-        $msg_level5 = "Wrong flag for Level 5.";
-    }
-}
+include "level.php";
 
 // =============================================
 // SESSION SECURITY: REGENERATE ID
@@ -197,9 +96,7 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
 </head>
 <body>
 
-<!-- ============================================= -->
 <!-- HEADER SECTION -->
-<!-- ============================================= -->
 <div class="header">
     <div>Mini RCE Platform</div>
     <div class="social-links">
@@ -214,10 +111,8 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
 
 <div class="container">
 
-<!-- ============================================= -->
-<!-- REGISTRATION SECTION (NOT LOGGED IN) -->
-<!-- ============================================= -->
 <?php if (!isset($_SESSION['user'])): ?>
+    <!-- REGISTRATION SECTION -->
     <div class="card">
         <h2>Register to Start</h2>
         <form method="POST">
@@ -228,12 +123,8 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
         </form>
     </div>
 
-<!-- ============================================= -->
-<!-- MAIN DASHBOARD (LOGGED IN) -->
-<!-- ============================================= -->
 <?php else: ?>
-
-    <!-- ---------- WELCOME CARD ---------- -->
+    <!-- MAIN DASHBOARD -->
     <div class="welcome-card">
         <div class="welcome-content">
             <i class="fa-solid fa-user-astronaut"></i>
@@ -244,311 +135,36 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
         </div>
     </div>
 
-    <!-- ---------- PROGRESS OVERVIEW ---------- -->
+    <!-- PROGRESS OVERVIEW -->
     <div class="progress-overview">
-        <!-- Level 1 Progress Chip -->
-        <div class="progress-chip <?php echo $solved_level1 ? 'done' : 'pending'; ?>">
-            <i class="fa-solid <?php echo $solved_level1 ? 'fa-check-circle' : 'fa-circle'; ?>"></i>
-            Level 1
-        </div>
-
-        <!-- Level 2 Progress Chip -->
-        <div class="progress-chip <?php echo $solved_level2 ? 'done' : 'pending'; ?>">
-            <i class="fa-solid <?php echo $solved_level2 ? 'fa-check-circle' : 'fa-circle'; ?>"></i>
-            Level 2
-        </div>
-
-        <!-- Level 3 Progress Chip -->
-        <div class="progress-chip <?php echo $solved_level3 ? 'done' : 'pending'; ?>">
-            <i class="fa-solid <?php echo $solved_level3 ? 'fa-check-circle' : 'fa-circle'; ?>"></i>
-            Level 3
-        </div>
-
-        <!-- Level 4 Progress Chip -->
-        <div class="progress-chip <?php echo $solved_level4 ? 'done' : 'pending'; ?>">
-            <i class="fa-solid <?php echo $solved_level4 ? 'fa-check-circle' : 'fa-circle'; ?>"></i>
-            Level 4
-        </div>
-
-        <!-- Level 5 Progress Chip -->
-        <div class="progress-chip <?php echo $solved_level5 ? 'done' : 'pending'; ?>">
-            <i class="fa-solid <?php echo $solved_level5 ? 'fa-check-circle' : 'fa-circle'; ?>"></i>
-            Level 5
-        </div>
+        <?php for($i = 1; $i <= 5; $i++): ?>
+            <div class="progress-chip <?php echo in_array($i, $solved_levels) ? 'done' : 'pending'; ?>">
+                <i class="fa-solid <?php echo in_array($i, $solved_levels) ? 'fa-check-circle' : 'fa-circle'; ?>"></i>
+                Level <?php echo $i; ?>
+            </div>
+        <?php endfor; ?>
     </div>
 
-        
-
-    <!-- ---------- CHALLENGES GRID (2 COLUMNS) ---------- -->
+    <!-- CHALLENGES GRID -->
     <div class="challenges-grid">
-
-        <!-- ===== LEVEL 1 CARD ===== -->
-        <div class="challenge-card <?php echo $solved_level1 ? 'solved' : ''; ?>">
-            <!-- Card Header -->
-            <div class="challenge-card-header">
-                <div>
-                    <span class="challenge-level">Challenge 1</span>
-                    <h3>Basic RCE</h3>
-                </div>
-                <?php if ($solved_level1): ?>
-                    <span class="status-badge solved"><i class="fa-solid fa-check"></i> Done</span>
-                <?php else: ?>
-                    <span class="status-badge unsolved"><i class="fa-solid fa-circle"></i> Active</span>
-                <?php endif; ?>
-            </div>
-
-            <!-- Access Link (Always Visible) -->
-            <a href="/levels/level1/" class="challenge-access">
-                <i class="fa-solid fa-terminal"></i> Access Challenge
-            </a>
-
-            <!-- Conditional Content -->
-            <?php if (!$solved_level1): ?>
-                <!-- Active State: Show Flag Form -->
-                <div class="compact-flag-form">
-                    <form method="POST">
-                        <input type="text" name="flag_level1" placeholder="flag{...}" required>
-                        <button type="submit" name="submit_level1" class="small-btn">Submit</button>
-                    </form>
-                    <?php if ($msg_level1): ?>
-                        <div class="mini-msg <?php echo strpos($msg_level1, 'Correct') !== false ? 'success' : 'error'; ?>">
-                            <?php echo htmlspecialchars($msg_level1, ENT_QUOTES, 'UTF-8'); ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            <?php else: ?>
-                <!-- Completed State: Show Trophy -->
-                <div class="compact-completed">
-                    <i class="fa-solid fa-trophy"></i> Completed
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <!-- ===== LEVEL 2 CARD ===== -->
-        <div class="challenge-card 
-    <?php 
-    if ($solved_level2) {
-        echo 'solved';
-    }
-    ?>">
-            
-            <!-- Card Header -->
-            <div class="challenge-card-header">
-                <div>
-                    <span class="challenge-level">Challenge 2</span>
-                    <h3>Filtered RCE</h3>
-                </div>
-                <?php if ($solved_level2): ?>
-                    <span class="status-badge solved"><i class="fa-solid fa-check"></i> Done</span>
-                <?php else: ?>
-                    <span class="status-badge unsolved"><i class="fa-solid fa-circle"></i> Active</span>
-                <?php endif; ?>
-            </div>
-
-            <!-- Access Link (Always Visible) -->
-            <a href="/levels/level2/" class="challenge-access">
-                <i class="fa-solid fa-terminal"></i> Access Challenge
-            </a>
-
-            <!-- Conditional Content based on Progress -->
-            <?php
-            // CASE 1: Level 2 Completed
-            if ($solved_level2):
-            ?>
-                <div class="compact-completed">
-                    <i class="fa-solid fa-trophy"></i> Completed
-                </div>
-
-            <?php
-            // CASE 2: Level 2 Not Completed (Active)
-            else:
-            ?>
-                <div class="compact-flag-form">
-                    <form method="POST">
-                        <input type="text" name="flag_level2" placeholder="flag{...}" required>
-                        <button type="submit" name="submit_level2" class="small-btn">Submit</button>
-                    </form>
-                    <?php if ($msg_level2): ?>
-                        <div class="mini-msg <?php echo strpos($msg_level2, 'Correct') !== false ? 'success' : 'error'; ?>">
-                            <?php echo htmlspecialchars($msg_level2, ENT_QUOTES, 'UTF-8'); ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <!-- ===== LEVEL 3 CARD ===== -->
-        <div class="challenge-card 
-    <?php 
-    if ($solved_level3) {
-        echo 'solved';
-    }
-    ?>">
-            
-            <!-- Card Header -->
-            <div class="challenge-card-header">
-                <div>
-                    <span class="challenge-level">Challenge 3</span>
-                    <h3>Hostile RCE</h3>
-                </div>
-                <?php if ($solved_level3): ?>
-                    <span class="status-badge solved"><i class="fa-solid fa-check"></i> Done</span>
-                <?php else: ?>
-                    <span class="status-badge unsolved"><i class="fa-solid fa-circle"></i> Active</span>
-                <?php endif; ?>
-            </div>
-
-            <!-- Access Link (Always Visible) -->
-            <a href="/levels/level3/" class="challenge-access">
-                <i class="fa-solid fa-terminal"></i> Access Challenge
-            </a>
-
-            <!-- Conditional Content based on Progress -->
-            <?php
-            // CASE 1: Level 3 Completed
-            if ($solved_level3):
-            ?>
-                <div class="compact-completed">
-                    <i class="fa-solid fa-trophy"></i> Completed
-                </div>
-
-            <?php
-            // CASE 2: Level 3 Not Completed (Active)
-            else:
-            ?>
-                <div class="compact-flag-form">
-                    <form method="POST">
-                        <input type="text" name="flag_level3" placeholder="flag{...}" required>
-                        <button type="submit" name="submit_level3" class="small-btn">Submit</button>
-                    </form>
-                    <?php if ($msg_level3): ?>
-                        <div class="mini-msg <?php echo strpos($msg_level3, 'Correct') !== false ? 'success' : 'error'; ?>">
-                            <?php echo htmlspecialchars($msg_level3, ENT_QUOTES, 'UTF-8'); ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <!-- ===== LEVEL 4 CARD ===== -->
-        <div class="challenge-card 
-    <?php 
-    if ($solved_level4) {
-        echo 'solved';
-    }
-    ?>">
-            
-            <!-- Card Header -->
-            <div class="challenge-card-header">
-                <div>
-                    <span class="challenge-level">Challenge 4</span>
-                    <h3>MIME Type Bypass</h3>
-                </div>
-                <?php if ($solved_level4): ?>
-                    <span class="status-badge solved"><i class="fa-solid fa-check"></i> Done</span>
-                <?php else: ?>
-                    <span class="status-badge unsolved"><i class="fa-solid fa-circle"></i> Active</span>
-                <?php endif; ?>
-            </div>
-
-            <!-- Access Link (Always Visible) -->
-            <a href="/levels/level4/" class="challenge-access">
-                <i class="fa-solid fa-terminal"></i> Access Challenge
-            </a>
-
-            <!-- Conditional Content based on Progress -->
-            <?php
-            // CASE 1: Level 4 Completed
-            if ($solved_level4):
-            ?>
-                <div class="compact-completed">
-                    <i class="fa-solid fa-trophy"></i> Completed
-                </div>
-
-            <?php
-            // CASE 2: Level 4 Not Completed (Active)
-            else:
-            ?>
-                <div class="compact-flag-form">
-                    <form method="POST">
-                        <input type="text" name="flag_level4" placeholder="flag{...}" required>
-                        <button type="submit" name="submit_level4" class="small-btn">Submit</button>
-                    </form>
-                    <?php if ($msg_level4): ?>
-                        <div class="mini-msg <?php echo strpos($msg_level4, 'Correct') !== false ? 'success' : 'error'; ?>">
-                            <?php echo htmlspecialchars($msg_level4, ENT_QUOTES, 'UTF-8'); ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <!-- ===== LEVEL 5 CARD ===== -->
-        <div class="challenge-card 
-    <?php 
-    if ($solved_level5) {
-        echo 'solved';
-    }
-    ?>">
-            
-            <!-- Card Header -->
-            <div class="challenge-card-header">
-                <div>
-                    <span class="challenge-level">Challenge 5</span>
-                    <h3>Basic Login</h3>
-                </div>
-                <?php if ($solved_level5): ?>
-                    <span class="status-badge solved"><i class="fa-solid fa-check"></i> Done</span>
-                <?php else: ?>
-                    <span class="status-badge unsolved"><i class="fa-solid fa-circle"></i> Active</span>
-                <?php endif; ?>
-            </div>
-
-            <!-- Access Link (Always Visible) -->
-            <a href="/levels/level5/" class="challenge-access">
-                <i class="fa-solid fa-terminal"></i> Access Challenge
-            </a>
-
-            <!-- Conditional Content based on Progress -->
-            <?php
-            // CASE 1: Level 5 Completed
-            if ($solved_level5):
-            ?>
-                <div class="compact-completed">
-                    <i class="fa-solid fa-trophy"></i> Completed
-                </div>
-
-            <?php
-            // CASE 2: Level 5 Not Completed (Active)
-            else:
-            ?>
-                <div class="compact-flag-form">
-                    <form method="POST">
-                        <input type="text" name="flag_level5" placeholder="flag{...}" required>
-                        <button type="submit" name="submit_level5" class="small-btn">Submit</button>
-                    </form>
-                    <?php if ($msg_level5): ?>
-                        <div class="mini-msg <?php echo strpos($msg_level5, 'Correct') !== false ? 'success' : 'error'; ?>">
-                            <?php echo htmlspecialchars($msg_level5, ENT_QUOTES, 'UTF-8'); ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <!-- ===== COMMUNITY CARD (FULL WIDTH) ===== -->
-        <div class="community-compact-card <?php echo ($solved_level1 && $solved_level2 && $solved_level3 && $solved_level4 && $solved_level5) ? 'highlight' : ''; ?>">
-            <!-- Community Header -->
+        <?php
+        // Render all level cards (functions defined in level.php)
+        renderLevel1Card($solved_levels, $msg_level1);
+        renderLevel2Card($solved_levels, $msg_level2);
+        renderLevel3Card($solved_levels, $msg_level3);
+        renderLevel4Card($solved_levels, $msg_level4);
+        renderLevel5Card($solved_levels, $msg_level5);
+        ?>
+        
+        <!-- COMMUNITY CARD -->
+        <div class="community-compact-card <?php echo (count($solved_levels) == 5) ? 'highlight' : ''; ?>">
             <div class="community-compact-header">
                 <h3><i class="fa-solid fa-users"></i> Community</h3>
-                <?php if ($solved_level1 && $solved_level2 && $solved_level3 && $solved_level4 && $solved_level5): ?>
+                <?php if (count($solved_levels) == 5): ?>
                     <span class="next-badge"><i class="fa-solid fa-star"></i> Master Achieved!</span>
                 <?php endif; ?>
             </div>
-
-            <!-- Community Links (2 Columns) -->
             <div class="community-compact-content">
-                <!-- Discord Card -->
                 <div class="community-item">
                     <i class="fa-brands fa-discord discord-icon"></i>
                     <div>
@@ -560,8 +176,6 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
                         Join <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
-
-                <!-- GitHub Card -->
                 <div class="community-item">
                     <i class="fa-brands fa-github github-icon"></i>
                     <div>
@@ -573,28 +187,22 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
                     </a>
                 </div>
             </div>
-
-            <!-- Preview Teaser (Only if All Levels Completed) -->
-            <?php if ($solved_level1 && $solved_level2 && $solved_level3 && $solved_level4): ?>
+            <?php if (count($solved_levels) >= 4): ?>
                 <div class="preview-teaser">
                     <i class="fa-solid fa-crown"></i>
                     <span>Champion!</span>
                 </div>
             <?php endif; ?>
-
-            <!-- Community Note -->
             <div class="community-note-compact">
                 <i class="fa-solid fa-bell"></i>
-                <span>Next challange will be announced in Discord!!</span>
+                <span>Next challenge will be announced in Discord!!</span>
             </div>
         </div>
-    </div> <!-- End Challenges Grid -->
+    </div>
 
-<?php endif; ?> <!-- End Logged In Section -->
+<?php endif; ?>
 
-<!-- ============================================= -->
-<!-- FOOTER SECTION -->
-<!-- ============================================= -->
+<!-- FOOTER -->
 <div class="footer">
     <p>© 2026 Mini RCE Platform</p>
     <p>
@@ -604,7 +212,7 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
     </p>
 </div>
 
-</div> <!-- End Container -->
+</div>
 
 </body>
 </html>
