@@ -82,6 +82,21 @@ docker compose up -d
 docker compose logs rce
 ```
 
+> ⚠️ Note (Linux):
+> Jika Docker memerlukan permission root, kamu bisa:
+>
+> **1. Gunakan sementara dengan sudo**
+> ```bash
+> sudo docker compose up -d
+> ```
+>
+> **2. Atau setup agar tidak perlu sudo (recommended)**
+> ```bash
+> sudo usermod -aG docker $USER
+> newgrp docker
+> ```
+>
+
 Jika ada error permission `/data`:
 
 ```bash
