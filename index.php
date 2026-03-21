@@ -12,6 +12,11 @@ session_start();
 include "init.php";
 
 // =============================================
+// INCLUDE NOTIFICATION HANDLER
+// =============================================
+include "notif/notif.php";
+
+// =============================================
 // LOAD ENVIRONMENT VARIABLES
 // =============================================
 $env_file = __DIR__ . '/.env';
@@ -35,6 +40,10 @@ if (isset($_POST['username'])) {
         $stmt->execute();
 
         $_SESSION['user'] = $username;
+        
+        // Set welcome notification without sound
+        notifySuccess("Welcome {$username}! Ready to hack?", 4000, false);
+        
         header("Location: /");
         exit;
     }
@@ -111,6 +120,11 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
 
 <div class="container">
 
+<?php
+// Display notification if exists
+displayNotification();
+?>
+
 <?php if (!isset($_SESSION['user'])): ?>
     <!-- REGISTRATION SECTION -->
     <div class="card">
@@ -149,11 +163,11 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
     <div class="challenges-grid">
         <?php
         // Render all level cards (functions defined in level.php)
-        renderLevel1Card($solved_levels, $msg_level1);
-        renderLevel2Card($solved_levels, $msg_level2);
-        renderLevel3Card($solved_levels, $msg_level3);
-        renderLevel4Card($solved_levels, $msg_level4);
-        renderLevel5Card($solved_levels, $msg_level5);
+        renderLevel1Card($solved_levels);
+        renderLevel2Card($solved_levels);
+        renderLevel3Card($solved_levels);
+        renderLevel4Card($solved_levels);
+        renderLevel5Card($solved_levels);
         ?>
         
         <!-- COMMUNITY CARD -->
@@ -213,6 +227,31 @@ if (isset($_SESSION['user']) && !isset($_SESSION['initiated'])) {
 </div>
 
 </div>
+
+<!-- Audio Player for Notifications -->
+<audio id="successSound" preload="auto" style="display: none;">
+    <source src="/notif/951.wav" type="audio/wav">
+    Your browser does not support the audio element.
+</audio>
+
+<script>
+// Function to play success sound
+function playSuccessSound() {
+    var audio = document.getElementById('successSound');
+    if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(function(e) {
+            console.log('Audio play failed:', e);
+        });
+    }
+}
+
+// Check if we need to play sound from PHP
+<?php if (isset($_SESSION['play_sound']) && $_SESSION['play_sound'] === true): ?>
+    playSuccessSound();
+    <?php unset($_SESSION['play_sound']); ?>
+<?php endif; ?>
+</script>
 
 </body>
 </html>

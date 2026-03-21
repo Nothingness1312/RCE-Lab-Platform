@@ -2,8 +2,6 @@
 // =============================================
 // LEVEL 1 - Basic RCE
 // =============================================
-$msg_level1 = '';
-
 if (isset($_POST['submit_level1']) && $uid && !in_array(1, $solved_levels)) {
     $flag = trim($_POST['flag_level1']);
 
@@ -13,13 +11,23 @@ if (isset($_POST['submit_level1']) && $uid && !in_array(1, $solved_levels)) {
         $stmt->execute();
         
         $solved_levels[] = 1;
-        $msg_level1 = "Correct! Level 1 completed!";
+        
+        // Set flag to play sound
+        $_SESSION['play_sound'] = true;
+        
+        // Notifikasi dengan audio
+        notifySuccess("Congratulations! You solved Level 1: Basic RCE.", 5000, true);
+        
+        header("Location: /");
+        exit;
     } else {
-        $msg_level1 = "Wrong flag for Level 1.";
+        notifyError("Wrong flag for Level 1. Please try again.");
+        header("Location: /");
+        exit;
     }
 }
 
-function renderLevel1Card($solved_levels, $msg_level1) {
+function renderLevel1Card($solved_levels) {
     $solved = in_array(1, $solved_levels);
     ?>
     <div class="challenge-card <?php echo $solved ? 'solved' : ''; ?>">
@@ -43,11 +51,6 @@ function renderLevel1Card($solved_levels, $msg_level1) {
                     <input type="text" name="flag_level1" placeholder="flag{...}" required>
                     <button type="submit" name="submit_level1" class="small-btn">Submit</button>
                 </form>
-                <?php if ($msg_level1): ?>
-                    <div class="mini-msg <?php echo strpos($msg_level1, 'Correct') !== false ? 'success' : 'error'; ?>">
-                        <?php echo htmlspecialchars($msg_level1, ENT_QUOTES, 'UTF-8'); ?>
-                    </div>
-                <?php endif; ?>
             </div>
         <?php else: ?>
             <div class="compact-completed">
@@ -61,8 +64,6 @@ function renderLevel1Card($solved_levels, $msg_level1) {
 // =============================================
 // LEVEL 2 - Filtered RCE
 // =============================================
-$msg_level2 = '';
-
 if (isset($_POST['submit_level2']) && $uid && !in_array(2, $solved_levels)) {
     $flag = trim($_POST['flag_level2']);
 
@@ -72,13 +73,22 @@ if (isset($_POST['submit_level2']) && $uid && !in_array(2, $solved_levels)) {
         $stmt->execute();
         
         $solved_levels[] = 2;
-        $msg_level2 = "Correct! Level 2 completed!";
+        
+        // Set flag to play sound
+        $_SESSION['play_sound'] = true;
+        
+        notifySuccess("Congratulations! You solved Level 2: Filtered RCE.", 5000, true);
+        
+        header("Location: /");
+        exit;
     } else {
-        $msg_level2 = "Wrong flag for Level 2.";
+        notifyError("Wrong flag for Level 2. Please try again.");
+        header("Location: /");
+        exit;
     }
 }
 
-function renderLevel2Card($solved_levels, $msg_level2) {
+function renderLevel2Card($solved_levels) {
     $solved = in_array(2, $solved_levels);
     ?>
     <div class="challenge-card <?php echo $solved ? 'solved' : ''; ?>">
@@ -102,11 +112,6 @@ function renderLevel2Card($solved_levels, $msg_level2) {
                     <input type="text" name="flag_level2" placeholder="flag{...}" required>
                     <button type="submit" name="submit_level2" class="small-btn">Submit</button>
                 </form>
-                <?php if ($msg_level2): ?>
-                    <div class="mini-msg <?php echo strpos($msg_level2, 'Correct') !== false ? 'success' : 'error'; ?>">
-                        <?php echo htmlspecialchars($msg_level2, ENT_QUOTES, 'UTF-8'); ?>
-                    </div>
-                <?php endif; ?>
             </div>
         <?php else: ?>
             <div class="compact-completed">
@@ -120,8 +125,6 @@ function renderLevel2Card($solved_levels, $msg_level2) {
 // =============================================
 // LEVEL 3 - Hostile RCE
 // =============================================
-$msg_level3 = '';
-
 if (isset($_POST['submit_level3']) && $uid && !in_array(3, $solved_levels)) {
     $flag = trim($_POST['flag_level3']);
 
@@ -131,13 +134,22 @@ if (isset($_POST['submit_level3']) && $uid && !in_array(3, $solved_levels)) {
         $stmt->execute();
         
         $solved_levels[] = 3;
-        $msg_level3 = "Correct! Level 3 completed!";
+        
+        // Set flag to play sound
+        $_SESSION['play_sound'] = true;
+        
+        notifySuccess("Congratulations! You solved Level 3: Hostile RCE.", 5000, true);
+        
+        header("Location: /");
+        exit;
     } else {
-        $msg_level3 = "Wrong flag for Level 3.";
+        notifyError("Wrong flag for Level 3. Please try again.");
+        header("Location: /");
+        exit;
     }
 }
 
-function renderLevel3Card($solved_levels, $msg_level3) {
+function renderLevel3Card($solved_levels) {
     $solved = in_array(3, $solved_levels);
     ?>
     <div class="challenge-card <?php echo $solved ? 'solved' : ''; ?>">
@@ -161,11 +173,6 @@ function renderLevel3Card($solved_levels, $msg_level3) {
                     <input type="text" name="flag_level3" placeholder="flag{...}" required>
                     <button type="submit" name="submit_level3" class="small-btn">Submit</button>
                 </form>
-                <?php if ($msg_level3): ?>
-                    <div class="mini-msg <?php echo strpos($msg_level3, 'Correct') !== false ? 'success' : 'error'; ?>">
-                        <?php echo htmlspecialchars($msg_level3, ENT_QUOTES, 'UTF-8'); ?>
-                    </div>
-                <?php endif; ?>
             </div>
         <?php else: ?>
             <div class="compact-completed">
@@ -179,8 +186,6 @@ function renderLevel3Card($solved_levels, $msg_level3) {
 // =============================================
 // LEVEL 4 - MIME Type Bypass
 // =============================================
-$msg_level4 = '';
-
 if (isset($_POST['submit_level4']) && $uid && !in_array(4, $solved_levels)) {
     $flag = trim($_POST['flag_level4']);
 
@@ -190,13 +195,22 @@ if (isset($_POST['submit_level4']) && $uid && !in_array(4, $solved_levels)) {
         $stmt->execute();
         
         $solved_levels[] = 4;
-        $msg_level4 = "Correct! Level 4 completed!";
+        
+        // Set flag to play sound
+        $_SESSION['play_sound'] = true;
+        
+        notifySuccess("Congratulations! You solved Level 4: MIME Type Bypass.", 5000, true);
+        
+        header("Location: /");
+        exit;
     } else {
-        $msg_level4 = "Wrong flag for Level 4.";
+        notifyError("Wrong flag for Level 4. Please try again.");
+        header("Location: /");
+        exit;
     }
 }
 
-function renderLevel4Card($solved_levels, $msg_level4) {
+function renderLevel4Card($solved_levels) {
     $solved = in_array(4, $solved_levels);
     ?>
     <div class="challenge-card <?php echo $solved ? 'solved' : ''; ?>">
@@ -220,11 +234,6 @@ function renderLevel4Card($solved_levels, $msg_level4) {
                     <input type="text" name="flag_level4" placeholder="flag{...}" required>
                     <button type="submit" name="submit_level4" class="small-btn">Submit</button>
                 </form>
-                <?php if ($msg_level4): ?>
-                    <div class="mini-msg <?php echo strpos($msg_level4, 'Correct') !== false ? 'success' : 'error'; ?>">
-                        <?php echo htmlspecialchars($msg_level4, ENT_QUOTES, 'UTF-8'); ?>
-                    </div>
-                <?php endif; ?>
             </div>
         <?php else: ?>
             <div class="compact-completed">
@@ -238,8 +247,6 @@ function renderLevel4Card($solved_levels, $msg_level4) {
 // =============================================
 // LEVEL 5 - Basic Login
 // =============================================
-$msg_level5 = '';
-
 if (isset($_POST['submit_level5']) && $uid && !in_array(5, $solved_levels)) {
     $flag = trim($_POST['flag_level5']);
 
@@ -249,13 +256,22 @@ if (isset($_POST['submit_level5']) && $uid && !in_array(5, $solved_levels)) {
         $stmt->execute();
         
         $solved_levels[] = 5;
-        $msg_level5 = "Correct! Level 5 completed!";
+        
+        // Set flag to play sound
+        $_SESSION['play_sound'] = true;
+        
+        notifySuccess("Congratulations! You solved Level 5: Basic Login.", 6000, true);
+        
+        header("Location: /");
+        exit;
     } else {
-        $msg_level5 = "Wrong flag for Level 5.";
+        notifyError("Wrong flag for Level 5. Please try again.");
+        header("Location: /");
+        exit;
     }
 }
 
-function renderLevel5Card($solved_levels, $msg_level5) {
+function renderLevel5Card($solved_levels) {
     $solved = in_array(5, $solved_levels);
     ?>
     <div class="challenge-card <?php echo $solved ? 'solved' : ''; ?>">
@@ -279,11 +295,6 @@ function renderLevel5Card($solved_levels, $msg_level5) {
                     <input type="text" name="flag_level5" placeholder="flag{...}" required>
                     <button type="submit" name="submit_level5" class="small-btn">Submit</button>
                 </form>
-                <?php if ($msg_level5): ?>
-                    <div class="mini-msg <?php echo strpos($msg_level5, 'Correct') !== false ? 'success' : 'error'; ?>">
-                        <?php echo htmlspecialchars($msg_level5, ENT_QUOTES, 'UTF-8'); ?>
-                    </div>
-                <?php endif; ?>
             </div>
         <?php else: ?>
             <div class="compact-completed">
