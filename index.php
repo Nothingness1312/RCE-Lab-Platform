@@ -83,7 +83,8 @@ if ($uid) {
 // =============================================
 // INCLUDE ALL LEVEL LOGIC (HANDLERS + DISPLAY)
 // =============================================
-include "level.php";
+include "levels/level1.php";
+include "levels/level2.php";
 
 // =============================================
 // SESSION SECURITY: REGENERATE ID
@@ -151,7 +152,7 @@ displayNotification();
 
     <!-- PROGRESS OVERVIEW -->
     <div class="progress-overview">
-        <?php for($i = 1; $i <= 5; $i++): ?>
+        <?php for($i = 1; $i <= 6; $i++): ?>
             <div class="progress-chip <?php echo in_array($i, $solved_levels) ? 'done' : 'pending'; ?>">
                 <i class="fa-solid <?php echo in_array($i, $solved_levels) ? 'fa-check-circle' : 'fa-circle'; ?>"></i>
                 Level <?php echo $i; ?>
@@ -168,13 +169,14 @@ displayNotification();
         renderLevel3Card($solved_levels);
         renderLevel4Card($solved_levels);
         renderLevel5Card($solved_levels);
+        renderLevel6Card($solved_levels);
         ?>
         
         <!-- COMMUNITY CARD -->
-        <div class="community-compact-card <?php echo (count($solved_levels) == 5) ? 'highlight' : ''; ?>">
+        <div class="community-compact-card <?php echo (count($solved_levels) == 6) ? 'highlight' : ''; ?>">
             <div class="community-compact-header">
                 <h3><i class="fa-solid fa-users"></i> Community</h3>
-                <?php if (count($solved_levels) == 5): ?>
+                <?php if (count($solved_levels) == 6): ?>
                     <span class="next-badge"><i class="fa-solid fa-star"></i> Master Achieved!</span>
                 <?php endif; ?>
             </div>
